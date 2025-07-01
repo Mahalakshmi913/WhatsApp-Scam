@@ -17,7 +17,7 @@
           message.textContent = result.message;
           // Redirect to home page after successful login
           setTimeout(() => {
-            window.location.href = "/home";
+            window.location.href = "/homePage";
           }, 1000);
           
         } else {

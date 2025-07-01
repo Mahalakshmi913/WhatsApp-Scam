@@ -77,10 +77,8 @@ def report_anonymous():
 
 @app.route('/homePage')
 def dashboard():
-    if 'username' in session:
-        return f"<h2>Welcome, {session['username']}! You are logged in.</h2>"
-    else:
-        return redirect('/login')
+    return render_template('homePage.html')
+
     
 # Run the Flask app
 if __name__ == '__main__':
