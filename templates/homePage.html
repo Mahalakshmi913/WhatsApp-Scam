@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScamShield 🔒</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 🧭 Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">ScamShield 🔒</div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#report">Report a Scam</a></li>
+        <li><a href="#check">Check a Number</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#login">Login / Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 🖼️ Hero Section -->
+  <section class="hero">
+    <h1>Protect Yourself from WhatsApp Scams</h1>
+    <p>Check suspicious numbers, report frauds, and stay safe online.</p>
+    <div class="hero-buttons">
+      <button onclick="scrollToCheck()">Check a Number 🔍</button>
+      <button onclick="scrollToReport()">Report Scam 📢</button>
+    </div>
+  </section>
+
+  <!-- 🔍 Quick Number Lookup Box -->
+  <section id="check" class="lookup">
+    <h2>Quick Number Lookup</h2>
+    <input type="text" id="numberInput" placeholder="Enter WhatsApp number">
+    <button onclick="checkNumber()">Check Now</button>
+    <p id="result"></p>
+  </section>
+
+  <!-- 🛑 Latest Reported Scam Numbers -->
+  <section class="live-feed">
+    <h2>Latest Reported Scam Numbers</h2>
+    <table>
+      <thead>
+        <tr><th>Number</th><th>Scam Type</th><th>Last Report</th><th>Risk</th></tr>
+      </thead>
+      <tbody id="scamTable">
+        <!-- Dynamic rows will be added here -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 📊 Scam Statistics -->
+  <section class="stats">
+    <h2>Scam Statistics</h2>
+    <p>10,000+ scam reports submitted</p>
+    <canvas id="scamChart" width="400" height="200"></canvas>
+  </section>
+
+  <!-- 💡 How It Works -->
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <ol>
+      <li>Search the number</li>
+      <li>Report if it's a scam</li>
+      <li>View scam types and patterns</li>
+    </ol>
+  </section>
+
+  <!-- 🤖 AI-Powered Detection -->
+  <section class="ai-detection">
+    <h2>AI-Powered Scam Detection</h2>
+    <p>We use AI/NLP to categorize and analyze scam patterns in real time.</p>
+  </section>
+
+  <!-- 🧠 Scam Awareness Tips -->
+  <section class="tips">
+    <h2>Scam Awareness Tips</h2>
+    <ul>
+      <li>Never share OTP on call</li>
+      <li>Verify job offers from official sources</li>
+      <li>WhatsApp will never ask for money</li>
+    </ul>
+  </section>
+
+  <!-- 📬 Contact / Report Problem -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="email" placeholder="Your Email">
+      <textarea placeholder="Your Message"></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- 🔐 Privacy Notice & Footer -->
+  <footer>
+    <p>We never store your personal data. Reports are anonymous and public-safe.</p>
+    <p>© 2025 ScamShield | <a href="#">Privacy Policy</a> | <a href="#">Terms</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

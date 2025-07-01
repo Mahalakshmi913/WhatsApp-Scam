@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2d2d2d;
+  color: white;
+  padding: 1rem 2rem;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #ffa500;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #e8f0fe;
+}
+
+.hero-buttons button {
+  margin: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.lookup {
+  text-align: center;
+  padding: 2rem;
+}
+
+.lookup input {
+  padding: 0.5rem;
+  width: 250px;
+  font-size: 1rem;
+}
+
+.lookup button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.live-feed, .stats, .how-it-works, .ai-detection, .tips, .contact {
+  padding: 2rem;
+  background-color: #fff;
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  background: #2d2d2d;
+  color: white;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+form input, form textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background: #28a745;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
