@@ -14,7 +14,7 @@
       <div class="logo">ScamShield 🔒</div>
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
-        <li><a href="#report">Report a Scam</a></li>
+        <li><a href="/report">Report a Scam</a></li>
         <li><a href="#check">Check a Number</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -29,7 +29,7 @@
     <p>Check suspicious numbers, report frauds, and stay safe online.</p>
     <div class="hero-buttons">
       <button onclick="scrollToCheck()">Check a Number 🔍</button>
-      <button onclick="scrollToReport()">Report Scam 📢</button>
+       <button onclick="window.location.href='/report'">Report Scam 📢</button>
     </div>
   </section>
 
@@ -44,31 +44,26 @@
   <!-- 🛑 Latest Reported Scam Numbers -->
   <section class="live-feed">
     <h2>Latest Reported Scam Numbers</h2>
-    <table>
-      <thead>
-        <tr><th>Number</th><th>Scam Type</th><th>Last Report</th><th>Risk</th></tr>
-      </thead>
-      <tbody id="scamTable">
-        <!-- Dynamic rows will be added here -->
-      </tbody>
-    </table>
+         <table>
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Scam Type</th>
+                <th>Last Report</th>
+                <th>Reports Count</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody id="scamTable">
+              <!-- Dynamic rows here -->
+            </tbody>
+         </table>
   </section>
 
   <!-- 📊 Scam Statistics -->
   <section class="stats">
     <h2>Scam Statistics</h2>
-    <p>10,000+ scam reports submitted</p>
-    <canvas id="scamChart" width="400" height="200"></canvas>
-  </section>
-
-  <!-- 💡 How It Works -->
-  <section class="how-it-works">
-    <h2>How It Works</h2>
-    <ol>
-      <li>Search the number</li>
-      <li>Report if it's a scam</li>
-      <li>View scam types and patterns</li>
-    </ol>
+    <canvas id="scamChart" width="30" height="50"></canvas>
   </section>
 
   <!-- 🤖 AI-Powered Detection -->
@@ -80,22 +75,23 @@
   <!-- 🧠 Scam Awareness Tips -->
   <section class="tips">
     <h2>Scam Awareness Tips</h2>
-    <ul>
-      <li>Never share OTP on call</li>
-      <li>Verify job offers from official sources</li>
-      <li>WhatsApp will never ask for money</li>
-    </ul>
+    <div class="tips-container">
+      <div class="tip-card">🚫 Never share OTP on call</div>
+      <div class="tip-card">🔍 Verify job offers from official sources</div>
+      <div class="tip-card">💸 WhatsApp will never ask for money</div>
+    </div>
   </section>
 
-  <!-- 📬 Contact / Report Problem -->
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-    <form>
-      <input type="email" placeholder="Your Email">
-      <textarea placeholder="Your Message"></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
+
+<!-- 📬 Contact / Report Problem -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <form class="contact-form">
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message ✉️</button>
+  </form>
+</section>
 
   <!-- 🔐 Privacy Notice & Footer -->
   <footer>
@@ -103,6 +99,7 @@
     <p>© 2025 ScamShield | <a href="#">Privacy Policy</a> | <a href="#">Terms</a></p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/static/js/homePage.js"></script>
 </body>
 </html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Report a WhatsApp Scam - ScamShield</title>
+  <link rel="stylesheet" href="/static/css/report.css" />
+</head>
+<body>
+
+  <h2 class="animated-header"> Report a WhatsApp Scam</h2>
+
+  <div id="progressBarContainer">
+    <div id="progressBar"></div>
+  </div>
+
+  <section id="report" class="report-form">
+    <form id="scamForm" action="/api/report" method="POST" enctype="multipart/form-data" autocomplete="off">
+
+      <div class="form-group">
+        <label for="phone">WhatsApp Number Being Reported *</label>
+        <input type="text" id="phone" name="phone" placeholder="Enter 10-digit number" required inputmode="numeric" pattern="[0-9]*" maxlength="10" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="scamType">Type of Scam *</label>
+        <select id="scamType" name="scamType" required>
+          <option value="">--Select--</option>
+          <option value="Job Offer Scam">Job Offer Scam</option>
+          <option value="Loan or Credit Fraud">Loan or Credit Fraud</option>
+          <option value="Investment Scam">Investment Scam</option>
+          <option value="Fake Delivery or Courier">Fake Delivery or Courier</option>
+          <option value="OTP / Account Access Scam">OTP / Account Access Scam</option>
+          <option value="Romance Scam">Romance Scam</option>
+          <option value="Prize or Lottery Scam">Prize or Lottery Scam</option>
+          <option value="Others">Others</option>
+        </select>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group" id="otherScamGroup" style="display: none;">
+        <input type="text" id="otherScamType" name="otherScamType" placeholder="Please specify" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Describe the Incident *</label>
+        <textarea id="description" name="description" rows="5" minlength="20" placeholder="Include scam details, what was said, link shared, etc." required></textarea>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">When did this happen?</label>
+        <input type="date" id="date" name="date" max="" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="evidence">Upload Screenshot or Chat (Max 2MB)</label>
+        <input type="file" id="evidence" name="evidence" accept=".jpeg,.jpg,.png,.pdf" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Your Location (Optional)</label>
+        <input type="text" id="location" name="location" placeholder="City, State" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Your Contact Info (Optional)</label>
+        <input type="text" id="contact" name="contact" placeholder="Email or phone (not shared)" />
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label for="captcha">
+          <input type="checkbox" id="captcha" name="captcha" required />
+          I'm not a robot
+        </label>
+        <div class="error-message"></div>
+
+        <label for="terms">
+          <input type="checkbox" id="terms" name="terms" required />
+          I confirm the above details are true to the best of my knowledge.
+        </label>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Submit Report</button>
+      </div>
+
+    </form>
+
+    <button id="helpBtn" title="Need help?">❓</button>
+    <div id="helpPopup" class="help-popup" style="display:none;">
+      <h3>How to Fill the Form</h3>
+      <ul>
+        <li>Enter the WhatsApp number (digits only, no alphabets).</li>
+        <li>Date cannot be in the future.</li>
+        <li>Fill all required fields for a complete report.</li>
+        <li>Hover on <span class="info-icon">📱</span> or <span class="info-icon">📅</span> for tips.</li>
+      </ul>
+      <button id="closeHelp">Close</button>
+    </div>
+
+    <div id="formMessage" aria-live="polite"></div>
+  </section>
+
+  <script src="/static/js/report.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+body {
+margin: 0;
+min-height: 100vh;
+font-family: 'Inter', sans-serif;
+background: linear-gradient(120deg, #004d40 0%, #00695c 40%, #00897b 70%, #26a69a 100%);
+background-size: 200% 200%;
+animation: bgMove 12s ease-in-out infinite alternate;
+overflow-x: hidden;
+position: relative;
+color: #fff;
+}
+
+@keyframes bgMove {
+0% { background-position: 0% 50%; }
+100% { background-position: 100% 50%; }
+}
+
+h2.animated-header {
+text-align: center;
+font-size: 2rem;
+margin: 2rem auto 1rem auto;
+color: #fff;
+text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+form {
+background: rgba(255,255,255,0.13);
+border-radius: 18px;
+border: 1.5px solid rgba(255,255,255,0.3);
+box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+max-width: 600px;
+margin: 2rem auto;
+padding: 2.5rem;
+z-index: 2;
+position: relative;
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+}
+
+label {
+font-weight: bold;
+margin-bottom: 0.4rem;
+display: block;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+textarea,
+select {
+width: 100%;
+padding: 0.8rem 1rem;
+border: none;
+border-radius: 12px;
+font-size: 1rem;
+font-family: inherit;
+background: rgba(255,255,255,0.09);
+color: #fff;
+border: 1.2px solid rgba(255,255,255,0.18);
+box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+textarea {
+resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+color: #e0f2f1;
+opacity: 0.8;
+}
+
+button[type="submit"] {
+padding: 1rem 0;
+width: 100%;
+font-size: 1.15rem;
+font-weight: 800;
+border-radius: 28px;
+border: none;
+cursor: pointer;
+background: linear-gradient(90deg, #fff, #f2f2f2);
+color: #00695c;
+box-shadow: 0 4px 20px rgba(255,255,255,0.13);
+transition: box-shadow 0.19s, transform 0.16s cubic-bezier(.77,0,.18,1);
+}
+
+button[type="submit"]:hover {
+transform: scale(1.05) translateY(-2px);
+box-shadow: 0 8px 32px rgba(255,255,255,0.22);
+filter: brightness(1.08);
+}
+
+#formMessage {
+text-align: center;
+font-weight: bold;
+margin-top: 1rem;
+}
+
+.help-popup {
+background: #fff;
+color: #4a8f83;
+padding: 1.2rem;
+border-radius: 16px;
+box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+z-index: 100;
+}
+
+.help-popup h3 {
+margin-top: 0;
+}
+
+#helpBtn {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: #fff;
+color: #004d40;
+border: none;
+border-radius: 50%;
+font-size: 1.2rem;
+width: 45px;
+height: 45px;
+cursor: pointer;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+input[type="checkbox"] {
+margin-right: 8px;
+}
+
+.checkbox-group label {
+font-weight: normal;
+}
+
+.error-message {
+color: #ffcccb;
+font-size: 0.85rem;
+}
+
+.form-group select {
+  background-color: #439386;    /* White background */
+  color: #fff;               /* Black text */
+  border-radius: 4px;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.form-group select option {
+  color: #fff;               /* Ensures dropdown options are black */
+  background-color: #4a8f83;
+}
+
+
+@media (max-width: 600px) {
+form {
+max-width: 95vw;
+padding: 1.2rem;
+margin-top: 1.5rem;
+}
+select {
+  background: rgba(255, 255, 255, 0.1);
+  color: #000;
+  border-radius: 12px;
+  border: 1.2px solid rgba(255,255,255,0.18);
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  appearance: auto; /* Optional: for custom dropdown arrow styling */
+}
+
+select option {
+  color: #000; /* Makes option text readable */
+  background-color: #000; /* Light background for dropdown */
+}
+
+}
+

@@ -3,23 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up</title>
+  <title>Sign Up - WhatsApp Scam Report</title>
+
+  <!-- External UI Styles from Collaborator -->
   <link rel="stylesheet" href="/static/css/signup.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 </head>
 <body>
+
   <div class="signup-container">
-    <h2>Sign Up</h2>
-    <form id="signupForm" method="POST">
-      <input type="text" name="name" placeholder="Full Name" required />
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <input type="text" name="phone" placeholder="Phone Number" required />
-      <input type="email" name="email" placeholder="Email" required />
+    <div class="header">
+      <h2>WhatsApp Scam Report</h2>
+      <p>Create your account to help stop WhatsApp scams.</p>
+    </div>
+
+    <!-- ✅ Backend connection preserved -->
+    <form id="signupForm" method="POST" action="/api/signup">
+      <div class="form-group">
+        <input type="text" id="name" name="name" placeholder="Full Name" required />
+        <span id="nameStatus" class="status-icon"></span>
+        <small id="nameError" class="error-msg"></small>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="username" name="username" placeholder="Username" required />
+        <span id="usernameStatus" class="status-icon"></span>
+        <small id="usernameError" class="error-msg"></small>
+      </div>
+
+      <div class="form-group">
+        <input type="password" id="password" name="password" placeholder="Password" required />
+        <span id="passwordStatus" class="status-icon"></span>
+        <small id="passwordError" class="error-msg"></small>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="phone" name="phone" placeholder="Phone Number" required />
+        <span id="phoneStatus" class="status-icon"></span>
+        <small id="phoneError" class="error-msg"></small>
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="email" name="email" placeholder="Email" required />
+        <span id="emailStatus" class="status-icon"></span>
+        <small id="emailError" class="error-msg"></small>
+      </div>
+
       <button type="submit">Sign Up</button>
       <p id="message"></p>
     </form>
-  </div>
 
+    <p class="privacy-note"><i class="fa-solid fa-lock"></i> Your information is confidential and never shared publicly.</p>
+
+    <div class="footer">
+      <span>Already have an account?</span>
+      <a href="/login">Login here</a>
+    </div>
+  </div>
+  <!-- JS -->
   <script src="/static/js/signup.js"></script>
 </body>
 </html>

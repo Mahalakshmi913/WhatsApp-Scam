@@ -1,56 +1,283 @@
-* {
-  box-sizing: border-box;
+body {
   margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(120deg, #004d40 0%, #00695c 40%, #00897b 70%, #26a69a 100%);
+  background-size: 200% 200%;
+  animation: bgMove 12s ease-in-out infinite alternate;
+  overflow-x: hidden;
+  position: relative;
+  color: #fff;
 }
 
-body {
-  height: 100vh;
-  background: linear-gradient(120deg, #2980b9, #8e44ad);
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.floating-info-cards {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 10;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.info-card {
+  display: flex;
   align-items: center;
+  gap: 0.7rem;
+  background: rgba(255,255,255,0.13);
+  border-radius: 16px;
+  border: 1.5px solid rgba(255,255,255,0.13);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+  padding: 1.1rem 1.6rem;
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.07rem;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 5;
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+.info-card i {
+  font-size: 1.4rem;
+  color: #fff !important;
+}
+
+.card-1 { animation-delay: 0s; }
+.card-2 { animation-delay: 2s; }
+.card-3 { animation-delay: 4s; }
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0px) rotate(0deg);}
+  33% { transform: translateY(-20px) rotate(2deg);}
+  66% { transform: translateY(12px) rotate(-1.5deg);}
 }
 
 .login-container {
-  background-color: white;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 300px;
+  background: rgba(255,255,255,0.13);
+  border-radius: 18px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  max-width: 400px;
+  margin: 120px auto 0 auto;
+  padding: 2.5rem 2.2rem 2rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  position: relative;
 }
 
 .login-container h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 0.7rem;
+  color: #fff;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.login-subtitle {
+  font-size: 1.1rem;
+  color: #fff !important;
+  margin-bottom: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.15);
   text-align: center;
-  margin-bottom: 20px;
 }
 
-input {
+#loginForm {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #2980b9;
-  color: white;
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.09);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  border: 1.2px solid rgba(255,255,255,0.18);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.input-group i {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-right: 0.8rem;
+}
+
+.input-group input {
+  background: transparent;
   border: none;
-  border-radius: 6px;
+  outline: none;
+  color: #fff;
+  font-size: 1.1rem;
+  flex: 1;
+  padding: 0.5rem 0;
+  font-family: inherit;
+}
+
+.input-group input::placeholder {
+  color: #e0f2f1;
+  opacity: 0.8;
+}
+
+button[type="submit"] {
+  margin-top: 0.7rem;
+  padding: 1rem 0;
+  width: 100%;
+  font-size: 1.15rem;
+  font-weight: 800;
+  border-radius: 28px;
+  border: none;
+  outline: none;
   cursor: pointer;
-  font-size: 16px;
+  background: linear-gradient(90deg, #fff, #f2f2f2);
+  color: #00695c !important;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.13);
+  transition: box-shadow 0.19s, transform 0.16s cubic-bezier(.77,0,.18,1), background 0.3s;
+  letter-spacing: 0.01em;
 }
 
-button:hover {
-  background-color: #21618c;
+button[type="submit"]:hover, button[type="submit"]:focus {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 8px 32px 0 rgba(255,255,255,0.22);
+  filter: brightness(1.08);
 }
 
-#message {
-  margin-top: 10px;
-  color: red;
+@media (max-width: 600px) {
+  .login-container {
+    max-width: 95vw;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    margin-top: 40px;
+  }
+  .floating-info-cards {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: rgba(255,255,255,0.16);
+  border-radius: 22px;
+  border: 2.5px solid rgba(255,255,255,0.18);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+  padding: 2.1rem 2.8rem;
+  color: #fff !important;
+  font-weight: 800;
+  font-size: 1.45rem;
+  max-width: 340px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 5;
+  animation: floatCard 6s ease-in-out infinite;
+  transition: transform 0.35s cubic-bezier(.77,0,.18,1), box-shadow 0.3s;
+}
+
+.info-card:hover, .info-card:focus {
+  transform: scale(1.08) translateY(-6px);
+  box-shadow: 0 18px 60px 0 rgba(0,255,255,0.22);
+}
+
+.info-card i {
+  font-size: 2.5rem;
+  color: #00e5ff !important;
+  filter: drop-shadow(0 0 8px #00e5ff88);
+  transition: color 0.3s, filter 0.3s;
+}
+
+.card-1 { animation-delay: 0s; }
+.card-2 { animation-delay: 2s; }
+.card-3 { animation-delay: 4s; }
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0px) rotate(0deg);}
+  33% { transform: translateY(-28px) rotate(2deg);}
+  66% { transform: translateY(18px) rotate(-1.5deg);}
+}
+
+@media (max-width: 600px) {
+  .floating-info-cards {
+    left: 8px;
+    top: 8px;
+    gap: 1rem;
+  }
+  .info-card {
+    font-size: 1.05rem;
+    padding: 1.1rem 1.2rem;
+    max-width: 180px;
+  }
+  .info-card i {
+    font-size: 1.3rem;
+  }
+}
+.error-dialog-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.44);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeInDialog 0.28s;
+}
+
+@keyframes fadeInDialog {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.error-dialog-box {
+  background: #fff;
+  color: #004d40;
+  padding: 2.2rem 2.6rem 1.5rem 2.6rem;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.22);
   text-align: center;
+  min-width: 260px;
+  font-size: 1.18rem;
+  position: relative;
+  animation: popInDialog 0.28s;
+}
+
+@keyframes popInDialog {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#errorDialog button {
+  margin-top: 1.2rem;
+  padding: 0.6rem 2.2rem;
+  border-radius: 24px;
+  border: none;
+  background: linear-gradient(90deg, #26a69a, #00897b);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+  transition: background 0.2s;
+}
+#errorDialog button:hover {
+  background: linear-gradient(90deg, #00897b, #26a69a);
+}
+
 }
