@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Scam Report System</title>
+  <link rel="stylesheet" href="/static/css/adminStyle.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>ScamShield Admin</h2>
+      </div>
+      <nav class="sidebar-menu">
+        <ul>
+          <li class="active" data-section="overview">Overview</li>
+          <li data-section="users">User Management</li>
+          <li data-section="reports">Scam Reports</li>
+          <li data-section="messages">Message Monitoring</li>
+          <li data-section="analytics">Analytics</li>
+          <li data-section="feedback">Feedback</li>
+          <li data-section="settings">Settings</li>
+          <li data-section="logout" class="logout-btn">Logout</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1 id="section-title">Dashboard Overview</h1>
+      </header>
+
+      <section id="overview" class="content-section active-section">
+        <div class="cards">
+          <div class="card">
+            <h3>Total Reports</h3>
+            <p id="total-reports">1250</p>
+          </div>
+          <div class="card">
+            <h3>Total Users</h3>
+            <p id="total-users">500</p>
+          </div>
+          <div class="card">
+            <h3>Messages Flagged</h3>
+            <p id="flagged-messages">230</p>
+          </div>
+          <div class="card">
+            <h3>Active Reports</h3>
+            <p id="active-reports">180</p>
+          </div>
+        </div>
+
+        <div class="charts">
+          <div class="chart-container">
+            <h3>Reports Trend (Last 7 days)</h3>
+            <canvas id="reportsTrendChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3>Scam Types Distribution</h3>
+            <canvas id="scamTypeChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="users" class="content-section">
+        <h2>User Management</h2>
+        <input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterTable('userTable', this.value)" />
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example data -->
+            <tr>
+              <td>101</td>
+              <td>Alice Johnson</td>
+              <td>alice@example.com</td>
+              <td>Active</td>
+              <td><button class="btn-action">Ban</button> <button class="btn-action">View</button></td>
+            </tr>
+            <tr>
+              <td>102</td>
+              <td>Bob Smith</td>
+              <td>bob@example.com</td>
+              <td>Banned</td>
+              <td><button class="btn-action">Unban</button> <button class="btn-action">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="reports" class="content-section">
+        <h2>Scam Reports</h2>
+        <input type="text" id="reportSearch" placeholder="Search reports..." onkeyup="filterTable('reportTable', this.value)" />
+        <table id="reportTable">
+          <thead>
+            <tr>
+              <th>Report ID</th>
+              <th>Reported Number</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example data -->
+            <tr>
+              <td>R001</td>
+              <td>+91 9876543210</td>
+              <td>2025-07-20</td>
+              <td>Pending</td>
+              <td><button class="btn-action">Resolve</button> <button class="btn-action">Delete</button></td>
+            </tr>
+            <tr>
+              <td>R002</td>
+              <td>+91 9123456789</td>
+              <td>2025-07-18</td>
+              <td>Resolved</td>
+              <td><button class="btn-action" disabled>Resolved</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="messages" class="content-section">
+        <h2>Message Monitoring</h2>
+        <p>Feature under construction...</p>
+      </section>
+
+      <section id="analytics" class="content-section">
+        <h2>Analytics & Insights</h2>
+        <p>Feature under construction...</p>
+      </section>
+
+      <section id="feedback" class="content-section">
+        <h2>User Feedback</h2>
+        <p>Feature under construction...</p>
+      </section>
+
+      <section id="settings" class="content-section">
+        <h2>Settings</h2>
+        <p>Feature under construction...</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/js/adminDashboard.js"></script>
+</body>
+</html>

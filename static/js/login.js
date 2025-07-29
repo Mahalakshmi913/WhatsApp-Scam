@@ -15,11 +15,17 @@
         if (response.ok) {
           message.style.color = "green";
           message.textContent = result.message;
-          // Redirect to home page after successful login
-          setTimeout(() => {
-            window.location.href = "/homePage";
-          }, 1000);
+
           
+          // Redirect to home page after successful login
+        setTimeout(() => {
+          if (result.role === 'admin') {
+            window.location.href = "/adminDashboard";
+          } else {
+            window.location.href = "/homePage"; // regular user
+          }
+        }, 1000);
+
         } else {
           message.style.color = "red";
           message.textContent = result.message;

@@ -35,19 +35,28 @@ def login_page():
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
-    
+
+    # Debug print (optional)
     print("Submitted:", username, password)
     for doc in users_collection.find():
         print(doc)  # Debug: See what's in the collection
 
-
     user = users_collection.find_one({"username": username, "password": password})
-    
+
     if user:
         session['username'] = username
-        return jsonify({"status": "success", "message": "Login successful"})
+        role = user.get("role", "user")  # default role 'user' if not set
+        return jsonify({
+            "status": "success",
+            "message": "Login successful",
+            "role": role
+        })
     else:
         return jsonify({"status": "error", "message": "Invalid credentials"}), 401
+
+@app.route('/adminDashboard')
+def admin_dashboard():
+    return render_template('adminDashboard.html')
 
 @app.route('/signup')
 def signup():
@@ -232,26 +241,31 @@ def scam_statistics():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# New collection for Contact Messages
-contact_collection = mongo.db.ContactMessages
+# Contact Us API
+contact_collection = mongo.db.contact_us
 
-@app.route('/contact', methods=['POST'])
-def contact():
-    data = request.get_json()
-    email = data.get('email')
-    message = data.get('message')
+@app.route('/api/contact', methods=['POST'])
+def contact_us():
+    try:
+        email = request.form.get('email')
+        message = request.form.get('message')
+        submitted_at = datetime.utcnow()
 
-    if not email or not message:
-        return jsonify({'status': 'error', 'message': 'Both email and message are required.'}), 400
+        if not email or not message:
+            return jsonify({"status": "error", "message": "All fields are required"}), 400
 
-    contact_collection.insert_one({
-        'email': email,
-        'message': message,
-        'timestamp': datetime.datetime.utcnow()
-    })
+        contact_doc = {
+            "email": email,
+            "message": message,
+            "submitted_at": submitted_at
+        }
 
-    return jsonify({'status': 'success', 'message': 'Message sent successfully.'}), 200
+        contact_collection.insert_one(contact_doc)
 
+        return jsonify({"status": "success", "message": "Thank you for contacting us!"})
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 # Run the Flask app
 if __name__ == '__main__':

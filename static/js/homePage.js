@@ -102,23 +102,36 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Contact form submission
-  document.querySelector('.contact-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    
-    const email = this.querySelector('input[type="email"]').value;
-    const message = this.querySelector('textarea').value;
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault(); // Prevent default form submit
 
-    const response = await fetch('http://localhost:5000/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, message })
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ email, message })
     });
 
     const result = await response.json();
-    alert(result.message);
+    
+    // Display the message
+    const responseMsg = document.getElementById('responseMsg');
+    responseMsg.textContent = result.message;
 
-    if (response.ok) {
-        this.reset();
+    // Clear the form fields
+    if (result.status === "success") {
+      document.getElementById('contactForm').reset();
+      responseMsg.style.color = 'green';
+    } else {
+      responseMsg.style.color = 'red';
     }
-  });
+
+  } catch (err) {
+    document.getElementById('responseMsg').textContent = "Something went wrong. Try again.";
+    document.getElementById('responseMsg').style.color = 'red';
+  }
+    });
 });
