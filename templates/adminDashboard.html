@@ -43,18 +43,13 @@
             <p id="total-users">500</p>
           </div>
           <div class="card">
-            <h3>Messages Flagged</h3>
-            <p id="flagged-messages">230</p>
-          </div>
-          <div class="card">
             <h3>Active Reports</h3>
             <p id="active-reports">180</p>
           </div>
         </div>
-
         <div class="charts">
           <div class="chart-container">
-            <h3>Reports Trend (Last 7 days)</h3>
+            <h3>Reports Trend</h3>
             <canvas id="reportsTrendChart"></canvas>
           </div>
           <div class="chart-container">
@@ -64,71 +59,45 @@
         </div>
       </section>
 
-      <section id="users" class="content-section">
-        <h2>User Management</h2>
-        <input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterTable('userTable', this.value)" />
-        <table id="userTable">
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Example data -->
-            <tr>
-              <td>101</td>
-              <td>Alice Johnson</td>
-              <td>alice@example.com</td>
-              <td>Active</td>
-              <td><button class="btn-action">Ban</button> <button class="btn-action">View</button></td>
-            </tr>
-            <tr>
-              <td>102</td>
-              <td>Bob Smith</td>
-              <td>bob@example.com</td>
-              <td>Banned</td>
-              <td><button class="btn-action">Unban</button> <button class="btn-action">View</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+<section id="users" class="content-section">
+  <h2>User Management</h2>
+  <input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterTable('userTable', this.value)" />
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dynamic user rows will go here -->
+    </tbody>
+  </table>
+</section>
 
-      <section id="reports" class="content-section">
-        <h2>Scam Reports</h2>
-        <input type="text" id="reportSearch" placeholder="Search reports..." onkeyup="filterTable('reportTable', this.value)" />
-        <table id="reportTable">
-          <thead>
-            <tr>
-              <th>Report ID</th>
-              <th>Reported Number</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Example data -->
-            <tr>
-              <td>R001</td>
-              <td>+91 9876543210</td>
-              <td>2025-07-20</td>
-              <td>Pending</td>
-              <td><button class="btn-action">Resolve</button> <button class="btn-action">Delete</button></td>
-            </tr>
-            <tr>
-              <td>R002</td>
-              <td>+91 9123456789</td>
-              <td>2025-07-18</td>
-              <td>Resolved</td>
-              <td><button class="btn-action" disabled>Resolved</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+
+<section id="reports" class="content-section">
+  <h2>Scam Reports</h2>
+  <input type="text" id="reportSearch" placeholder="Search reports..." onkeyup="filterTable('reportTable', this.value)" />
+  <table id="reportTable">
+    <thead>
+      <tr>
+        <th>Report ID</th>
+        <th>Phone</th>
+        <th>Scam Type</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="reportTableBody">
+      <!-- Dynamic content inserted via JavaScript -->
+    </tbody>
+  </table>
+</section>
+
 
       <section id="messages" class="content-section">
         <h2>Message Monitoring</h2>
@@ -141,10 +110,23 @@
       </section>
 
       <section id="feedback" class="content-section">
-        <h2>User Feedback</h2>
-        <p>Feature under construction...</p>
+        <h2>Feedback</h2>
+        <input type="text" id="feedbackSearch" placeholder="Search feedback..." onkeyup="filterTable('feedbackTable', this.value)" />
+        <table id="feedbackTable">
+          <thead>
+            <tr>
+              <th>Feedback ID</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Submitted At</th>
+            </tr>
+          </thead>
+          <tbody id="feedbackTableBody">
+            <!-- Dynamic feedback rows will go here -->
+          </tbody>
+        </table>
       </section>
-
+      
       <section id="settings" class="content-section">
         <h2>Settings</h2>
         <p>Feature under construction...</p>

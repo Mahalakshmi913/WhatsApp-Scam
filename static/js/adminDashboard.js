@@ -12,11 +12,11 @@ menuItems.forEach(item => {
       }
       return;
     }
-    
+
     // Remove active class from all menu items and sections
     menuItems.forEach(i => i.classList.remove('active'));
     sections.forEach(sec => sec.classList.remove('active-section'));
-    
+
     // Activate clicked menu item and corresponding section
     item.classList.add('active');
     const activeSection = document.getElementById(item.dataset.section);
@@ -39,65 +39,129 @@ function filterTable(tableId, searchTerm) {
   }
 }
 
-// Charts initialization using Chart.js
-const reportsTrendCtx = document.getElementById('reportsTrendChart').getContext('2d');
-const scamTypeCtx = document.getElementById('scamTypeChart').getContext('2d');
+// Fetch overview data from backend
+fetch('/admin/overview-data')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('total-reports').textContent = data.total_reports;
+    document.getElementById('total-users').textContent = data.total_users;
+    document.getElementById('active-reports').textContent = data.active_reports;
+  })
+  .catch(err => console.error('Overview fetch error:', err));
 
-const reportsTrendChart = new Chart(reportsTrendCtx, {
-  type: 'line',
-  data: {
-    labels: ['July 15', 'July 16', 'July 17', 'July 18', 'July 19', 'July 20', 'July 21'],
-    datasets: [{
-      label: 'Reports',
-      data: [150, 200, 180, 220, 210, 190, 200],
-      backgroundColor: 'rgba(230, 126, 34, 0.2)',
-      borderColor: 'rgba(230, 126, 34, 1)',
-      borderWidth: 2,
-      fill: true,
-      tension: 0.3,
-      pointRadius: 4,
-      pointHoverRadius: 6
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false }
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
-
-const scamTypeChart = new Chart(scamTypeCtx, {
-  type: 'doughnut',
-  data: {
-    labels: ['Loan Scam', 'OTP Fraud', 'Fake Offers', 'Others'],
-    datasets: [{
-      label: 'Scam Types',
-      data: [45, 25, 20, 10],
-      backgroundColor: [
-        '#e67e22',
-        '#3498db',
-        '#9b59b6',
-        '#95a5a6'
-      ],
-      hoverOffset: 30
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right',
-        labels: {
-          boxWidth: 18,
-          padding: 10,
+// Fetch chart data from backend
+fetch('/admin/chart-data')
+  .then(res => res.json())
+  .then(chartData => {
+    // Reports trend chart (line)
+    const reportsTrendCtx = document.getElementById('reportsTrendChart').getContext('2d');
+    new Chart(reportsTrendCtx, {
+      type: 'line',
+      data: {
+        labels: chartData.trend.labels,
+        datasets: [{
+          label: 'Reports',
+          data: chartData.trend.values,
+          backgroundColor: 'rgba(230, 126, 34, 0.2)',
+          borderColor: 'rgba(230, 126, 34, 1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
       }
-    } 
+    });
+
+    // Scam type distribution chart (doughnut)
+    const scamTypeCtx = document.getElementById('scamTypeChart').getContext('2d');
+    new Chart(scamTypeCtx, {
+      type: 'doughnut',
+      data: {
+        labels: chartData.types.labels,
+        datasets: [{
+          label: 'Scam Types',
+          data: chartData.types.values,
+          backgroundColor: ['#e67e22', '#3498db', '#9b59b6', '#95a5a6'],
+          hoverOffset: 30
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 18,
+              padding: 10,
+            }
+          }
+        }
+      }
+    });
+  })
+  .catch(err => console.error('Chart data fetch error:', err));
+ 
+  function loadUsers() {
+    fetch('/admin/users')
+      .then(res => res.json())
+      .then(users => {
+        const tbody = document.querySelector('#userTable tbody');
+        tbody.innerHTML = ''; // Clear any existing rows
+
+        users.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${user._id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>
+              <button class="btn-action">Delete</button>
+              <button class="btn-action">View</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error('Error fetching user data:', err));
   }
-});
+
+  document.addEventListener('DOMContentLoaded', loadUsers);
+
+  function loadReports() {
+  fetch('/admin/reports-data')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById('reportTableBody');
+      tbody.innerHTML = '';
+
+      data.forEach(report => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${report.id}</td>
+          <td>${report.phone}</td>
+          <td>${report.scam_type}</td>
+          <td>${report.description}</td>
+          <td>${report.date}</td>
+          <td>
+            <button class="btn-action">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => console.error('Error fetching reports:', err));
+}
+
+document.addEventListener('DOMContentLoaded', loadReports);

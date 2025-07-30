@@ -5,6 +5,12 @@ from datetime import datetime
 import os
 from bson.json_util import dumps 
 from bson.son import SON
+from collections import Counter
+from bson import ObjectId
+from bson.json_util import dumps
+from flask import Response
+
+
 
 
 app = Flask(__name__)
@@ -266,6 +272,122 @@ def contact_us():
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+# Admin dashboard connection
+@app.route('/admin/overview-data', methods=['GET'])
+def admin_overview_data():
+    # Total number of reports
+    total_reports = mongo.db.reports.count_documents({})
+
+    # Total users = all users who are NOT admin (i.e., no 'role' or role != 'admin')
+    total_users = mongo.db.Users.count_documents({
+        "$or": [
+            {"role": {"$ne": "admin"}},
+            {"role": {"$exists": False}}
+        ]
+    })
+
+    # Active reports (based on 'status' field or no status)
+    active_reports = mongo.db.reports.count_documents({
+        "$or": [
+            {"status": {"$in": ["active", "pending"]}},
+            {"status": {"$exists": False}}
+        ]
+    })
+
+    return jsonify({
+        "total_reports": total_reports,
+        "total_users": total_users,
+        "active_reports": active_reports
+    })
+
+
+@app.route('/admin/chart-data')
+def admin_chart_data():
+    # Reports trend (count by date)
+    reports = mongo.db.reports.find({}, {"submitted_at": 1})
+    date_counts = {}
+    for r in reports:
+        dt = r.get('submitted_at')
+        if isinstance(dt, str):
+            dt = datetime.strptime(dt[:10], "%Y-%m-%d")
+        date_str = dt.strftime('%b %d')
+        date_counts[date_str] = date_counts.get(date_str, 0) + 1
+
+    sorted_dates = sorted(date_counts.items(), key=lambda x: datetime.strptime(x[0], "%b %d"))
+    trend_labels = [d[0] for d in sorted_dates]
+    trend_values = [d[1] for d in sorted_dates]
+
+    # Scam type distribution
+    scam_types = mongo.db.reports.distinct("scam_type")
+    type_counter = Counter()
+    for scam in mongo.db.reports.find({}, {"scam_type": 1}):
+        type_counter[scam.get("scam_type", "Others")] += 1
+
+    type_labels = list(type_counter.keys())
+    type_values = list(type_counter.values())
+
+    return jsonify({
+        "trend": {
+            "labels": trend_labels,
+            "values": trend_values
+        },
+        "types": {
+            "labels": type_labels,
+            "values": type_values
+        }
+    })
+
+@app.route('/admin/users')
+def get_all_users():
+    users = mongo.db.Users.find({
+        "$or": [
+            {"role": {"$exists": False}},
+            {"role": {"$ne": "admin"}}
+        ]
+    })
+
+    user_list = []
+    for user in users:
+        user_list.append({
+            "id": str(user.get('_id')),
+            "name": user.get('name', 'N/A'),
+            "email": user.get('email', 'N/A')
+        })
+
+    return jsonify(user_list)
+
+@app.route('/admin/reports-data')
+def get_reports_data():
+    reports = mongo.db.reports.find()
+    formatted = []
+
+    for report in reports:
+        formatted.append({
+            "id": str(report.get('_id', '')),
+            "phone": report.get("phone", "N/A"),
+            "scam_type": report.get("scam_type", "N/A"),
+            "description": report.get("description", "N/A"),
+            "date": report.get("date_of_incident", "N/A")
+        })
+
+    return jsonify(formatted)
+
+@app.route('/admin/feedback-data')
+def get_feedback_data():
+    feedbacks = mongo.db.contact_us.find().sort("submitted_at", -1)  # latest first
+    formatted = []
+
+    for fb in feedbacks:
+        formatted.append({
+            "id": str(fb.get('_id')),
+            "email": fb.get('email', 'N/A'),
+            "message": fb.get('message', 'N/A'),
+            "submitted_at": fb.get('submitted_at').strftime("%Y-%m-%d %H:%M:%S") if fb.get('submitted_at') else 'N/A'
+        })
+
+    return jsonify(formatted)
 
 # Run the Flask app
 if __name__ == '__main__':

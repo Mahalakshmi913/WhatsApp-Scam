@@ -135,3 +135,29 @@ document.addEventListener('DOMContentLoaded', function () {
   }
     });
 });
+
+function loadFeedback() {
+  fetch('/admin/feedback-data')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById('feedbackTableBody');
+      tbody.innerHTML = '';
+
+      data.forEach(fb => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${fb.id}</td>
+          <td>${fb.email}</td>
+          <td>${fb.message}</td>
+          <td>${fb.submitted_at}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => console.error('Error fetching feedback:', err));
+}
+
+// Call it when DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+  loadFeedback();
+});
