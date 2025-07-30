@@ -161,3 +161,8 @@ function loadFeedback() {
 document.addEventListener('DOMContentLoaded', () => {
   loadFeedback();
 });
+
+// Logout functionality
+document.querySelector('.logout-btn').addEventListener('click', () => {
+  window.location.href = "/landing";
+});

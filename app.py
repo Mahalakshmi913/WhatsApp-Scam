@@ -18,7 +18,13 @@ app.secret_key = "secret-key"  # Needed for session management
 
 # Local MongoDB
 app.config["MONGO_URI"] = "mongodb://localhost:27017/WhatsApp_Scam_Reports"
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 mongo = PyMongo(app)
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf', 'mp4', 'mov'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Reference to collection
 users_collection = mongo.db.Users
@@ -120,15 +126,19 @@ def submit_report():
     # Choose final scam type
     scam_type_final = other_scam_type if scam_type == "Others" else scam_type
 
-    # Handle evidence file upload
+    # Handle evidence file upload once
     evidence_file = request.files.get('evidence')
     file_name = None
-    if evidence_file:
+    if evidence_file and allowed_file(evidence_file.filename):
         file_name = evidence_file.filename
-        upload_path = os.path.join("static/uploads", file_name)
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+        upload_path = os.path.join(upload_dir, file_name)
         evidence_file.save(upload_path)
-
-    # Step 1: Insert the report
+    elif evidence_file:
+        return jsonify({"status": "error", "message": "Invalid file type"}), 400
+    
+    # Insert the report into MongoDB
     report = {
         "phone": phone,
         "scam_type": scam_type_final,
@@ -142,10 +152,10 @@ def submit_report():
 
     reports_collection.insert_one(report)
 
-    # Step 2: Calculate how many times this phone is reported
+    # Count total reports for the same phone number
     report_count = reports_collection.count_documents({"phone": phone})
 
-    # Step 3: Assign risk level based on count
+    # Determine risk level
     if report_count >= 3:
         risk_level = "High"
     elif report_count == 2:
@@ -153,7 +163,7 @@ def submit_report():
     else:
         risk_level = "Low"
 
-    # Step 4: Update ALL reports for this phone with risk_level
+    # Update all reports for the same phone number with the risk level
     reports_collection.update_many(
         {"phone": phone},
         {"$set": {"risk_level": risk_level}}
@@ -341,7 +351,7 @@ def admin_chart_data():
 
 @app.route('/admin/users')
 def get_all_users():
-    users = mongo.db.Users.find({
+    users = users_collection.find({
         "$or": [
             {"role": {"$exists": False}},
             {"role": {"$ne": "admin"}}
@@ -351,12 +361,32 @@ def get_all_users():
     user_list = []
     for user in users:
         user_list.append({
-            "id": str(user.get('_id')),
+            "_id": str(user.get('_id')),  # Match JS usage of user._id
             "name": user.get('name', 'N/A'),
             "email": user.get('email', 'N/A')
         })
 
     return jsonify(user_list)
+
+
+@app.route('/admin/users/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    result = users_collection.delete_one({'_id': ObjectId(user_id)})
+    if result.deleted_count:
+        return jsonify({'message': 'User deleted'})
+    return jsonify({'message': 'User not found'}), 404
+
+
+@app.route('/admin/users/<user_id>', methods=['GET'])
+def get_user(user_id):
+    user = users_collection.find_one({'_id': ObjectId(user_id)})
+    if user:
+        return jsonify({
+            "_id": str(user.get('_id')),
+            "name": user.get('name', 'N/A'),
+            "email": user.get('email', 'N/A')
+        })
+    return jsonify({'message': 'User not found'}), 404
 
 @app.route('/admin/reports-data')
 def get_reports_data():
@@ -364,16 +394,30 @@ def get_reports_data():
     formatted = []
 
     for report in reports:
+        evidence_file = report.get("evidence_file", "")
+        evidence_url = f"/static/uploads/{evidence_file}" if evidence_file else ""
+
         formatted.append({
             "id": str(report.get('_id', '')),
             "phone": report.get("phone", "N/A"),
             "scam_type": report.get("scam_type", "N/A"),
             "description": report.get("description", "N/A"),
-            "date": report.get("date_of_incident", "N/A")
+            "date": report.get("date_of_incident", "N/A"),
+            "location": report.get("location", "N/A"),
+            "contact": report.get("contact", "N/A"),
+            "evidence_url": evidence_url
         })
 
     return jsonify(formatted)
 
+@app.route('/admin/delete-report/<report_id>', methods=['DELETE'])
+def delete_report(report_id):
+    result = reports_collection.delete_one({'_id': ObjectId(report_id)})
+    if result.deleted_count == 1:
+        return jsonify({'message': 'Deleted successfully'}), 200
+    else:
+        return jsonify({'message': 'Report not found'}), 404
+    
 @app.route('/admin/feedback-data')
 def get_feedback_data():
     feedbacks = mongo.db.contact_us.find().sort("submitted_at", -1)  # latest first

@@ -7,8 +7,9 @@ menuItems.forEach(item => {
   item.addEventListener('click', () => {
     if (item.dataset.section === 'logout') {
       if (confirm('Are you sure you want to logout?')) {
-        // TODO: add logout logic here
-        alert('Logged out!');
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+          window.location.href = "/landing";
+        });
       }
       return;
     }
@@ -117,8 +118,9 @@ fetch('/admin/chart-data')
     fetch('/admin/users')
       .then(res => res.json())
       .then(users => {
+        console.log("Loaded users:", users);
         const tbody = document.querySelector('#userTable tbody');
-        tbody.innerHTML = ''; // Clear any existing rows
+        tbody.innerHTML = ''; // Clear existing rows
 
         users.forEach(user => {
           const tr = document.createElement('tr');
@@ -127,19 +129,57 @@ fetch('/admin/chart-data')
             <td>${user.name}</td>
             <td>${user.email}</td>
             <td>
-              <button class="btn-action">Delete</button>
-              <button class="btn-action">View</button>
+              <button class="btn-action delete-btn" data-id="${user._id}">Delete</button>
+              <button class="btn-action view-btn" data-id="${user._id}">View</button>
             </td>
           `;
           tbody.appendChild(tr);
+        });
+
+        // Attach listeners after DOM update
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            const userId = button.dataset.id;
+            deleteUser(userId);
+          });
+        });
+
+        document.querySelectorAll('.view-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            const userId = button.dataset.id;
+            viewUser(userId);
+          });
         });
       })
       .catch(err => console.error('Error fetching user data:', err));
   }
 
+  function deleteUser(userId) {
+    if (confirm("Are you sure you want to delete this user?")) {
+      fetch(`/admin/users/${userId}`, {
+        method: 'DELETE'
+      })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message || "User deleted");
+          loadUsers(); // Reload the table
+        })
+        .catch(err => console.error('Error deleting user:', err));
+    }
+  }
+
+  function viewUser(userId) {
+    // Example: Show user info in an alert or modal
+    fetch(`/admin/users/${userId}`)
+      .then(res => res.json())
+      .then(user => {
+        alert(`Name: ${user.name}\nEmail: ${user.email}`);
+      })
+      .catch(err => console.error('Error viewing user:', err));
+  }
   document.addEventListener('DOMContentLoaded', loadUsers);
 
-  function loadReports() {
+function loadReports() {
   fetch('/admin/reports-data')
     .then(res => res.json())
     .then(data => {
@@ -155,13 +195,72 @@ fetch('/admin/chart-data')
           <td>${report.description}</td>
           <td>${report.date}</td>
           <td>
-            <button class="btn-action">Delete</button>
+              ${report.evidence_url ? `
+                <a href="${report.evidence_url}" target="_blank">
+                  <img src="${report.evidence_url}" alt="Evidence" style="max-width: 100px; max-height: 100px; cursor: pointer;" />
+                </a>` : 'No Evidence'}
+          </td>
+          <td>
+            <button class="btn-action delete-btn" data-id="${report.id}">Delete</button>
           </td>
         `;
         tbody.appendChild(row);
+      });
+
+      // 🔁 Add click listeners to all delete buttons
+      document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          const reportId = this.dataset.id;
+
+          if (confirm(`Are you sure you want to delete report ID ${reportId}?`)) {
+            fetch(`/admin/delete-report/${reportId}`, { method: 'DELETE' })
+              .then(response => {
+                if (response.ok) {
+                  alert("Report deleted.");
+                  loadReports(); // Refresh the table
+                } else {
+                  alert("Failed to delete report.");
+                }
+              })
+              .catch(err => {
+                console.error("Error deleting report:", err);
+                alert("Error occurred.");
+              });
+          }
+        });
       });
     })
     .catch(err => console.error('Error fetching reports:', err));
 }
 
 document.addEventListener('DOMContentLoaded', loadReports);
+
+
+function loadFeedback() {
+  fetch('/admin/feedback-data')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById('feedbackTableBody');
+      tbody.innerHTML = ''; // Clear existing rows
+
+      data.forEach(fb => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${fb.id}</td>
+          <td>${fb.email}</td>
+          <td>${fb.message}</td>
+          <td>${fb.submitted_at}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error('Error fetching feedback:', err);
+    });
+}
+
+// Ensure the feedback loads when the page is ready
+document.addEventListener('DOMContentLoaded', () => {
+  loadFeedback();
+});
+
