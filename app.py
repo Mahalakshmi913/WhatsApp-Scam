@@ -11,8 +11,6 @@ from bson.json_util import dumps
 from flask import Response
 
 
-
-
 app = Flask(__name__)
 app.secret_key = "secret-key"  # Needed for session management
 
