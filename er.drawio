@@ -1,0 +1,135 @@
+<mxfile host="app.diagrams.net" modified="2025-06-17T12:00:00.000Z" agent="5.0 (Windows)" etag="12345" version="20.0.1" type="device">
+  <diagram id="ER-Diagram" name="ER Diagram">
+    <mxGraphModel dx="827" dy="622" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Entity: User -->
+        <mxCell id="user" value="User" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="140" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="user-attrs" value="&#xa;• UserID (PK)&#xa;• Name&#xa;• Email&#xa;• Password&#xa;• PhoneNumber" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=pre-wrap;fontSize=12;" vertex="1" parent="user">
+          <mxGeometry x="10" y="30" width="120" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Entity: PhoneNumber -->
+        <mxCell id="phone" value="PhoneNumber" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="320" y="60" width="140" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phone-attrs" value="&#xa;• Number (PK)&#xa;• IsSpoofed&#xa;• RiskScore" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=pre-wrap;fontSize=12;" vertex="1" parent="phone">
+          <mxGeometry x="10" y="30" width="120" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Entity: BusinessVerified (specialization of PhoneNumber) -->
+        <mxCell id="business" value="BusinessVerified" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#4caf50;" vertex="1" parent="1">
+          <mxGeometry x="520" y="60" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="business-attrs" value="&#xa;• Number (PK, FK)&#xa;• BusinessName&#xa;• VerificationDate" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=pre-wrap;fontSize=12;" vertex="1" parent="business">
+          <mxGeometry x="10" y="25" width="140" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Entity: ScamReport -->
+        <mxCell id="report" value="ScamReport" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="280" width="180" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="report-attrs" value="&#xa;• ReportID (PK)&#xa;• UserID (FK)&#xa;• Number (FK)&#xa;• ScamTypeID (FK)&#xa;• Description&#xa;• Timestamp&#xa;• Evidence" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=pre-wrap;fontSize=12;" vertex="1" parent="report">
+          <mxGeometry x="10" y="30" width="160" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Entity: ScamType -->
+        <mxCell id="scamtype" value="ScamType" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="320" y="280" width="140" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="scamtype-attrs" value="&#xa;• ScamTypeID (PK)&#xa;• Name&#xa;• Description" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=pre-wrap;fontSize=12;" vertex="1" parent="scamtype">
+          <mxGeometry x="10" y="25" width="120" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Relationship: User - ScamReport (Reports) -->
+        <mxCell id="rel-user-report" value="Reports" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#ffffff;shape=rhombus;" vertex="1" parent="1">
+          <mxGeometry x="190" y="180" width="80" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-user-report" style="endArrow=none;html=1;" edge="1" parent="1" source="user" target="rel-user-report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-report-user" style="endArrow=block;html=1;" edge="1" parent="1" source="rel-user-report" target="report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-user-rel" value="1" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="110" y="190" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-report-rel" value="N" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="190" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Relationship: PhoneNumber - ScamReport (ReportedOn) -->
+        <mxCell id="rel-phone-report" value="ReportedOn" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#ffffff;shape=rhombus;" vertex="1" parent="1">
+          <mxGeometry x="220" y="380" width="90" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-phone-rel" style="endArrow=none;html=1;" edge="1" parent="1" source="phone" target="rel-phone-report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-rel-report" style="endArrow=block;html=1;" edge="1" parent="1" source="rel-phone-report" target="report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-phone-rel" value="1" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="340" y="390" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-report-rel2" value="N" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="390" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Relationship: ScamType - ScamReport (Classifies) -->
+        <mxCell id="rel-scamtype-report" value="Classifies" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#ffffff;shape=rhombus;" vertex="1" parent="1">
+          <mxGeometry x="400" y="380" width="80" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-scamtype-rel" style="endArrow=none;html=1;" edge="1" parent="1" source="scamtype" target="rel-scamtype-report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-rel-report2" style="endArrow=block;html=1;" edge="1" parent="1" source="rel-scamtype-report" target="report">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-scamtype-rel" value="1" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="430" y="390" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="card-report-rel3" value="N" style="text;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="370" y="390" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Generalization ISA: PhoneNumber -> BusinessVerified -->
+        <mxCell id="isa-triangle" value="" style="shape=triangle;direction=north;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="460" y="130" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-phone-isa" style="endArrow=none;html=1;dashed=1;" edge="1" parent="1" source="phone" target="isa-triangle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-isa-business" style="endArrow=none;html=1;dashed=1;" edge="1" parent="1" source="isa-triangle" target="business">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Cardinality notes near relationships -->
+        <mxCell id="cardinality-user" value="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="140" y="180" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="cardinality-report-user" value="N" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="260" y="180" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cardinality-phone" value="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="335" y="375" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="cardinality-report-phone" value="N" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="375" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cardinality-scamtype" value="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="375" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="cardinality-report-scamtype" value="N" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="380" y="375" width="20" height="20" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

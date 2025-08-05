@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ScamShield 🔒</title>
   <link rel="stylesheet" href="/static/css/homePage.css" >
+  <!-- Add this inside the <head> of your HTML -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
@@ -63,7 +65,7 @@
   <!-- 📊 Scam Statistics -->
   <section class="stats">
     <h2>Scam Statistics</h2>
-    <canvas id="scamChart" width="30" height="50"></canvas>
+    <canvas id="scamChart" width="400" height="350"></canvas>
   </section>
 
   <!-- 🤖 AI-Powered Detection -->
@@ -96,12 +98,24 @@
 </section>
 
   <!-- 🔐 Privacy Notice & Footer -->
-  <footer>
-    <p>We never store your personal data. Reports are anonymous and public-safe.</p>
-    <p>© 2025 ScamShield | <a href="#">Privacy Policy</a> | <a href="#">Terms</a></p>
-  </footer>
+  <<footer>
+  <p>We never store your personal data. Reports are anonymous and public-safe.</p>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <p>© 2025 ScamShield |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms</a>
+  </p>
+
+  <div class="social-icons">
+    <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="https://wa.me/11234567890" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+  </div>
+
+  <p class="contact">Contact us: +1 123-456-7890 | +1 987-654-3210</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/static/js/homePage.js"></script>
 </body>
 </html>
