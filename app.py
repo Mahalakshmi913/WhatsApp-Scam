@@ -84,6 +84,7 @@ def signup_api():
     if users_collection.find_one({'username': username}):
         return jsonify({"status": "error", "message": "Username already exists"}), 409
 
+    admin_usernames = ['admin', 'joel', 'alby']
     # Assign 'admin' role if username is 'admin'
     user = {
         "name": name,
@@ -91,7 +92,7 @@ def signup_api():
         "password": password,
         "phone": phone,
         "email": email,
-        "role": "admin" if username == "admin" else "user"
+        "role": "admin" if username in admin_usernames else "user"
     }
 
     users_collection.insert_one(user)
