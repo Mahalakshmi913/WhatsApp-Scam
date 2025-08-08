@@ -1,121 +1,1138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScamShield 🔒</title>
-  <link rel="stylesheet" href="/static/css/homePage.css" >
-  <!-- Add this inside the <head> of your HTML -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamShield 🔒</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Google Fonts: Poppins and Lato -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables for easy theme management --- */
+        :root {
+            --primary-color: #26a69a; /* Lighter teal for accents */
+            --primary-dark: #00897b;
+            --secondary-color: #004d40;
+            --text-primary: #f5f5f5;
+            --text-secondary: #b2dfdb; /* Muted light teal */
+            --bg-glass: rgba(0, 0, 0, 0.25);
+            --border-glass: 1px solid rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --border-radius: 16px;
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            /* Add new variables */
+            --glass-effect: rgba(255, 255, 255, 0.1);
+            --neon-glow: 0 0 20px rgba(38, 166, 154, 0.6);
+            --card-hover: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --modern-gradient: linear-gradient(135deg, #004d40 0%, #00897b 50%, #26a69a 100%);
+        }
+
+        /* --- General Body & Reset Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(120deg, #004d40 0%, #00695c 40%, #00897b 70%, #26a69a 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%; /* Increased padding */
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem; /* Larger logo text */
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 10px 15px; /* More padding around links */
+            border-radius: 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            position: relative;
+            font-size: 1.1rem; /* Larger nav links */
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            background-color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .logout-btn {
+            background-color: var(--primary-color) !important;
+            color: #ffffff !important;
+            padding: 8px 18px !important;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: var(--primary-dark) !important;
+            box-shadow: 0 0 15px rgba(38, 166, 154, 0.6);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: var(--modern-gradient);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 160px 20px 140px 20px;
+            margin-top: 74px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+            animation: backgroundFloat 20s linear infinite;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            height: 60px; /* Fixed height for typing effect */
+        }
+        
+        /* Typing effect cursor */
+        .hero h1 .cursor {
+            display: inline-block;
+            background-color: var(--text-secondary);
+            margin-left: 0.1rem;
+            width: 3px;
+            animation: blink 1s infinite;
+        }
+
+        /* Hero Carousel */
+        .hero-carousel {
+            position: relative;
+            height: 40px; /* Adjust height based on content */
+            width: 100%;
+            max-width: 650px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+        }
+        .hero-carousel-item {
+            position: absolute;
+            width: 100%;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            transform: translateY(20px);
+        }
+        .hero-carousel-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .hero-buttons button {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .hero-buttons button:hover::before {
+            width: 100%;
+        }
+
+        .hero-buttons button:hover {
+            background-color: transparent;
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(38, 166, 154, 0.5);
+        }
+        
+        .hero-buttons button:last-child {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .hero-buttons button:last-child:hover {
+            background-color: transparent;
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        /* --- General Section Styling --- */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 40px auto;
+            text-align: center;
+            background: var(--bg-glass);
+            border-radius: var(--border-radius);
+            border: var(--border-glass);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .live-feed, .tips, .hero {
+            background: none;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        section h2 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        section > p {
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Lookup & Form Styles --- */
+        .lookup input[type="text"], .contact-form input, .contact-form textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            border: var(--border-glass);
+            background: rgba(0,0,0,0.2);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lookup input[type="text"]::placeholder, .contact-form input::placeholder, .contact-form textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .lookup input[type="text"]:focus, .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-glow);
+            transform: translateY(-2px);
+        }
+        
+        .lookup button, .contact-form button {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            padding: 15px 30px;
+            border: none;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .lookup button::before, .contact-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .lookup button:hover::before, .contact-form button:hover::before {
+            width: 100%;
+        }
+
+        .lookup button:hover, .contact-form button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        #result {
+            margin-top: 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* --- Live Feed Table --- */
+        .live-feed table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: var(--glass-effect);
+            border: var(--border-glass);
+            backdrop-filter: blur(10px);
+        }
+
+        .live-feed th, .live-feed td {
+            padding: 18px 15px;
+            text-align: left;
+            border-bottom: var(--border-glass);
+        }
+
+        .live-feed thead {
+            background-color: rgba(0,0,0,0.25);
+            font-family: var(--font-heading);
+            color: #ffffff;
+        }
+
+        .live-feed tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .live-feed tbody tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.01);
+        }
+        
+        .live-feed tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .live-feed .risk-level {
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            display: inline-block;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .risk-level.high { background-color: #e53935; }
+        .risk-level.medium { background-color: #fdd835; color: #333; text-shadow: none;}
+        .risk-level.low { background-color: #43a047; }
+
+        /* --- Awareness Tips --- */
+        .tips-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tip-card {
+            min-height: 200px;
+            padding: 2.5rem;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .tip-card i {
+            font-size: 2.5rem; /* Larger icons */
+            margin-right: 1.5rem;
+            color: var(--primary-color);
+            transition: all 0.4s ease;
+        }
+
+        /* Enhanced hover effects for tip cards */
+        .tip-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(38, 166, 154, 0.3);
+        }
+
+        .tip-card:hover i {
+            transform: scale(1.2) rotate(10deg);
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Add before element for hover effect */
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(38, 166, 154, 0.2) 0%,
+                rgba(0, 137, 123, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tip-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Update floating animation */
+        @keyframes floatAnimation {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.25;
+            }
+            50% {
+                transform: translateY(-25px) rotate(10deg) scale(1.1);
+                opacity: 0.35;
+            }
+        }
+
+        /* --- Chart Section Styling --- */
+        .chart-container {
+            max-width: 400px;
+            margin: 2rem auto 0;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: var(--border-glass);
+        }
+        .chart-container canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+        
+        /* --- Footer --- */
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--text-secondary);
+            padding: 40px 5%;
+            margin-top: 40px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+                text-align: left;
+            }
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-links a, .footer-contact p {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        .social-icons {
+            margin-top: 1rem;
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--text-secondary);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .social-icons a:hover {
+            transform: scale(1.2);
+            color: var(--primary-color);
+        }
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        /* --- Animations on Scroll --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* --- Background Animation --- */
+        @keyframes backgroundFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px var(--primary-color); }
+            50% { box-shadow: 0 0 20px var(--primary-color); }
+            100% { box-shadow: 0 0 5px var(--primary-color); }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; height: auto; min-height: 100px; }
+            section h2 { font-size: 2.4rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 74px;
+                left: 0;
+                background: rgba(0, 20, 15, 0.95);
+                backdrop-filter: blur(10px);
+                padding-bottom: 20px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { margin: 15px 0; width: 100%; text-align: center; }
+            .hamburger { display: block; }
+
+            .hero { min-height: 70vh; padding-top: 120px; padding-bottom: 120px; }
+            .hero h1 { font-size: 2.5rem; min-height: 80px; }
+            .hero-carousel-item { font-size: 1.1rem; }
+            .hero-buttons { display: flex; flex-direction: column; align-items: center; }
+            .hero-buttons button { width: 80%; max-width: 300px; margin: 10px 0; }
+            
+            section { padding: 60px 5%; margin: 20px auto; }
+            section h2 { font-size: 2.2rem; }
+            .live-feed { overflow-x: auto; }
+        }
+
+        /* Update contact form styles */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            border: var(--border-glass);
+            background: rgba(0,0,0,0.2);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+            text-align: left;
+        }
+
+        .contact-form button {
+            width: 200px;
+            margin: 1rem auto 0;
+            padding: 15px 30px;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .contact-form button:hover::before {
+            width: 100%;
+        }
+
+        #responseMsg {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* --- Floating Icons --- */
+        .hero-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 4.5rem; /* Increased from 3.5rem */
+            color: rgba(255, 255, 255, 0.25); /* Slightly increased opacity */
+            animation: floatAnimation 6s infinite;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); /* Enhanced glow effect */
+        }
+
+        .floating-icon:nth-child(1) { left: 8%; top: 15%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { right: 8%; top: 12%; animation-delay: -1s; }
+        .floating-icon:nth-child(3) { left: 12%; bottom: 15%; animation-delay: -2s; }
+        .floating-icon:nth-child(4) { right: 12%; bottom: 20%; animation-delay: -3s; }
+
+        @keyframes floatAnimation {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.25;
+            }
+            50% {
+                transform: translateY(-25px) rotate(10deg) scale(1.1);
+                opacity: 0.35;
+            }
+        }
+
+        /* Ensure hero content stays above icons */
+        .hero > * {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+
 </head>
 <body>
 
-  <!-- 🧭 Navigation Bar -->
-  <header>
-    <nav class="navbar">
-      <div class="logo">ScamShield 🔒</div>
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="/report">Report a Scam</a></li>
-        <li><a href="#check">Check a Number</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#" class="logout-btn">Logout</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <nav class="navbar">
+            <div class="logo">ScamShield 🔒</div>
+            <button class="hamburger" id="hamburger-menu" aria-label="Menu"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#check">Check a Number</a></li>
+                <li><a href="/report">Report a Scam</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- 🖼️ Hero Section -->
-  <section class="hero">
-    <h1>Protect Yourself from WhatsApp Scams</h1>
-    <p>Check suspicious numbers, report frauds, and stay safe online.</p>
-    <div class="hero-buttons">
-      <button onclick="scrollToCheck()">Check a Number 🔍</button>
-       <button onclick="window.location.href='/report'">Report Scam 📢</button>
-    </div>
-  </section>
+    <main>
+        <section class="hero">
+            <h1 id="typing-headline"></h1>
+            <div class="hero-carousel" id="hero-carousel">
+                <div class="hero-carousel-item active">Check numbers instantly with our global database.</div>
+                <div class="hero-carousel-item">Report scams anonymously to protect the community.</div>
+                <div class="hero-carousel-item">Stay informed with real-time alerts and statistics.</div>
+            </div>
+            <div class="hero-buttons">
+                <button onclick="document.getElementById('check').scrollIntoView();">Check a Number 🔍</button>
+                <button onclick="window.location.href='/report'">Report Scam 📢</button>
+            </div>
 
-  <!-- 🔍 Quick Number Lookup Box -->
-  <section id="check" class="lookup">
-    <h2>Quick Number Lookup</h2>
-    <input type="text" id="numberInput" placeholder="Enter WhatsApp number">
-    <button onclick="checkNumber()">Check Now</button>
-    <p id="result"></p>
-  </section>
+            <!-- Floating icons in the hero section -->
+            <div class="hero-icons">
+                <i class="floating-icon fas fa-shield-alt"></i>
+                <i class="floating-icon fas fa-lock"></i>
+                <i class="floating-icon fas fa-user-shield"></i>
+                <i class="floating-icon fas fa-fingerprint"></i>
+            </div>
+        </section>
 
-  <!-- 🛑 Latest Reported Scam Numbers -->
-  <section class="live-feed">
-    <h2>Latest Reported Scam Numbers</h2>
-         <table>
-            <thead>
-              <tr>
-                <th>Number</th>
-                <th>Scam Type</th>
-                <th>Last Report</th>
-                <th>Reports Count</th>
-                <th>Risk</th>
-              </tr>
-            </thead>
-            <tbody id="scamTable">
-              <!-- Dynamic rows here -->
-            </tbody>
-         </table>
-  </section>
+        <section id="check" class="lookup animate-on-scroll">
+            <h2>Quick Number Lookup</h2>
+            <p>Enter any WhatsApp number to check its reputation in our database instantly.</p>
+            <input type="text" 
+                   id="numberInput" 
+                   placeholder="Enter WhatsApp number with country code (e.g., +1234567890)"
+                   pattern="\+[1-9]\d{1,14}"
+                   title="Please enter a valid international phone number starting with +"
+                   required>
+            <button onclick="checkNumber()">Check Now</button>
+            <p id="result"></p>
+        </section>
 
-  <!-- 📊 Scam Statistics -->
-  <section class="stats">
-    <h2>Scam Statistics</h2>
-    <canvas id="scamChart" width="400" height="350"></canvas>
-  </section>
+        <section class="live-feed animate-on-scroll">
+            <h2>Latest Reported Scam Numbers</h2>
+            <p>Stay updated with the most recently reported numbers by the community.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Scam Type</th>
+                        <th>Last Report</th>
+                        <th>Reports</th>
+                        <th>Risk</th>
+                    </tr>
+                </thead>
+                <tbody id="scamTable">
+                    <tr>
+                        <td>+91 1234567890</td>
+                        <td>Lottery Fraud</td>
+                        <td>5 mins ago</td>
+                        <td>12</td>
+                        <td><span class="risk-level high">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>+44 9876543210</td>
+                        <td>Job Offer Scam</td>
+                        <td>2 hours ago</td>
+                        <td>5</td>
+                        <td><span class="risk-level medium">Medium</span></td>
+                    </tr>
+                     <tr>
+                        <td>+1 5550987654</td>
+                        <td>Impersonation</td>
+                        <td>1 day ago</td>
+                        <td>2</td>
+                        <td><span class="risk-level low">Low</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-  <!-- 🤖 AI-Powered Detection -->
-  <section class="ai-detection">
-    <h2>AI-Powered Scam Detection</h2>
-    <p>We use AI/NLP to categorize and analyze scam patterns in real time.</p>
-  </section>
+        <section class="stats animate-on-scroll" id="about">
+            <h2>Scam Statistics</h2>
+            <p>Visualizing the trends and types of scams reported on our platform.</p>
+            <!-- Chart container for smaller, centered chart -->
+            <div class="chart-container">
+                <canvas id="scamChart"></canvas>
+            </div>
+        </section>
 
-  <!-- 🧠 Scam Awareness Tips -->
-  <section class="tips">
-    <h2>Scam Awareness Tips</h2>
-    <div class="tips-container">
-      <div class="tip-card">🚫 Never share OTP on call</div>
-      <div class="tip-card">🔍 Verify job offers from official sources</div>
-      <div class="tip-card">💸 WhatsApp will never ask for money</div>
-    </div>
-  </section>
+        <section class="ai-detection animate-on-scroll">
+            <h2>AI-Powered Scam Detection</h2>
+            <p>We use advanced AI and Natural Language Processing to categorize scam patterns, identify emerging threats, and provide accurate risk assessments in real time.</p>
+        </section>
 
+        <section class="tips animate-on-scroll">
+            <h2>Scam Awareness Tips</h2>
+            <p>A few simple rules can help you stay safe from the most common scams.</p>
+            <div class="tips-container">
+                <div class="tip-card">
+                    <i class="fas fa-shield-alt"></i>
+                    Never share your OTP, PIN, or password with anyone, no matter who they claim to be.
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-search"></i>
+                    Always verify unexpected job offers or lottery wins from official company websites or sources.
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Be wary of links asking for payment or personal details. WhatsApp will never ask for money for its service.
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-user-secret"></i>
+                    Be cautious of unknown contacts claiming to be bank officials or government representatives. Always verify their identity through official channels.
+                </div>
+            </div>
+        </section>
 
-<!-- 📬 Contact / Report Problem -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <form class="contact-form" id="contactForm">
-    <input type="email" name="email" id="email" placeholder="Your Email" required>
-    <textarea name="message" id="message" placeholder="Your Message" rows="5" required></textarea>
-    <button type="submit">Send Message ✉️</button>
-  </form>
+        <section id="contact" class="contact animate-on-scroll">
+            <h2>Contact Us</h2>
+            <p>Have a question or need to report a problem with our service? Send us a message.</p>
+            <form class="contact-form" id="contactForm">
+                <input type="email" name="email" id="email" placeholder="Your Email" required>
+                <textarea name="message" id="message" placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Send Message ✉️</button>
+            </form>
+            <p id="responseMsg" style="margin-top:15px; color: #a7ffeb;"></p>
+        </section>
+    </main>
 
-  <p id="responseMsg" style="margin-top:10px; color: green;"></p> <!-- Message display -->
-</section>
+    <!-- Updated Footer Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="footer-grid">
+                <!-- ScamShield Info -->
+                <div>
+                    <h3 class="footer-logo">ScamShield 🔒</h3>
+                    <p class="mt-4 text-gray-400 text-sm">
+                        Protecting the community from digital scams. Our mission is to provide a safer online experience for everyone.
+                    </p>
+                    <div class="social-icons">
+                        <a href="https://twitter.com" target="_blank" title="Twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://linkedin.com" target="_blank" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://wa.me/11234567890" target="_blank" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://facebook.com" target="_blank" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
 
-  <!-- 🔐 Privacy Notice & Footer -->
-  <<footer>
-  <p>We never store your personal data. Reports are anonymous and public-safe.</p>
+                <!-- Quick Links -->
+                <div class="footer-links">
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul>
+                        <li><a href="#" class="hover:text-blue-400 transition duration-300">Home</a></li>
+                        <li><a href="#check" class="hover:text-blue-400 transition duration-300">Check a Number</a></li>
+                        <li><a href="/report" class="hover:text-blue-400 transition duration-300">Report a Scam</a></li>
+                        <li><a href="#about" class="hover:text-blue-400 transition duration-300">Scam Statistics</a></li>
+                        <li><a href="#contact" class="hover:text-blue-400 transition duration-300">Contact Us</a></li>
+                    </ul>
+                </div>
 
-  <p>© 2025 ScamShield |
-    <a href="#">Privacy Policy</a> |
-    <a href="#">Terms</a>
-  </p>
+                <!-- Contact Info -->
+                <div class="footer-contact">
+                    <h3 class="text-xl font-bold mb-4">Contact</h3>
+                    <p class="text-gray-400">info@scamshield.com</p>
+                    <p class="text-gray-400">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="copyright text-center text-gray-500 text-sm">
+                <p>&copy; 2025 ScamShield. All rights reserved.</p>
+                <p class="mt-2"><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
 
-  <div class="social-icons">
-    <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="https://wa.me/11234567890" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-  </div>
+    <!-- Chart.js and custom script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Removed local script reference as it's not provided. -->
+    <!-- <script src="/static/js/homePage.js"></script> -->
 
-  <p class="contact">Contact us: +1 123-456-7890 | +1 987-654-3210</p>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="/static/js/homePage.js"></script>
+    <script>
+        // --- Hamburger Menu ---
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // --- Typing Effect ---
+        const typingElement = document.getElementById('typing-headline');
+        const phrases = ["Protect Your Digital Life.", "Fight Scams Together.", "Stay One Step Ahead."];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            let displayText = '';
+
+            if (isDeleting) {
+                displayText = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                displayText = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typingElement.innerHTML = `${displayText}<span class="cursor">&nbsp;</span>`;
+
+            let typeSpeed = 200;
+            if (isDeleting) {
+                typeSpeed /= 2;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pause before new phrase
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        // --- Hero Carousel ---
+        const carouselContainer = document.getElementById('hero-carousel');
+        const carouselItems = carouselContainer.getElementsByClassName('hero-carousel-item');
+        let carouselIndex = 0;
+
+        function cycleCarousel() {
+            carouselItems[carouselIndex].classList.remove('active');
+            carouselIndex = (carouselIndex + 1) % carouselItems.length;
+            carouselItems[carouselIndex].classList.add('active');
+        }
+        
+        // --- Animate on Scroll ---
+        const scrollElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Optional: stop observing once visible
+                }
+            });
+        }, { threshold: 0.1 });
+
+        scrollElements.forEach(el => {
+            observer.observe(el);
+        });
+        
+        // --- Dynamic Nav Active Class on Scroll ---
+        const navLinksList = document.querySelectorAll('.nav-links a');
+        const sections = document.querySelectorAll('main section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinksList.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+        // --- Chart.js Pie Chart Initialization (with dummy data) ---
+        function createChart() {
+            const ctx = document.getElementById('scamChart').getContext('2d');
+            const scamChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Lottery Fraud', 'Job Offer Scam', 'Impersonation', 'Financial Scam'],
+                    datasets: [{
+                        label: 'Reports by Scam Type',
+                        data: [12, 5, 2, 7], // Dummy data
+                        backgroundColor: [
+                            'rgba(229, 57, 53, 0.7)',
+                            'rgba(253, 216, 53, 0.7)',
+                            'rgba(67, 160, 71, 0.7)',
+                            'rgba(38, 166, 154, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(229, 57, 53, 1)',
+                            'rgba(253, 216, 53, 1)',
+                            'rgba(67, 160, 71, 1)',
+                            'rgba(38, 166, 154, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: 'white'
+                            }
+                        },
+                        title: {
+                            display: false,
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Start animations and chart on load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+            setInterval(cycleCarousel, 4000); // Cycle every 4 seconds
+            createChart(); // Initialize the chart
+        });
+
+        // Add this function for number validation
+        function checkNumber() {
+            const numberInput = document.getElementById('numberInput');
+            const result = document.getElementById('result');
+            
+            // Regular expression for international phone numbers
+            const phoneRegex = /^\+[1-9]\d{1,14}$/;
+            
+            // Remove any spaces and special characters
+            const cleanNumber = numberInput.value.replace(/[\s\-\(\)]/g, '');
+            
+            if (!cleanNumber) {
+                result.innerHTML = '❌ Please enter a phone number';
+                result.style.color = '#ff6b6b';
+                return false;
+            }
+            
+            if (!phoneRegex.test(cleanNumber)) {
+                result.innerHTML = '❌ Please enter a valid international phone number starting with + (e.g., +1234567890)';
+                result.style.color = '#ff6b6b';
+                return false;
+            }
+            
+            // If validation passes, you can proceed with checking the number
+            result.innerHTML = '✓ Checking number...';
+            result.style.color = '#4caf50';
+            return true;
+        }
+
+        // Add input validation on type
+        document.getElementById('numberInput').addEventListener('input', function(e) {
+            const input = e.target;
+            let value = input.value.replace(/[^\d\+]/g, ''); // Only allow digits and +
+            
+            // Ensure only one + at the start
+            if (value.indexOf('+') > 0) {
+                value = '+' + value.replace(/\+/g, '');
+            }
+            
+            input.value = value;
+        });
+    </script>
 </body>
 </html>
